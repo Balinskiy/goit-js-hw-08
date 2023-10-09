@@ -5,19 +5,11 @@ const CURRENT_TIME_KEY = 'videoplayer-current-time';
 const iframe = document.querySelector('iframe');
 const player = new Player(iframe);
 
+const getCurrentTime = function (currentTime) {
+  const seconds = currentTime.seconds;
+  localStorage.setItem(CURRENT_TIME_KEY, JSON.stringify(seconds));
+};
 
-const setLocalStorageThrottled = throttle(function (currentTime) {
-    localStorage.setItem(CURRENT_TIME_KEY, currentTime);
-}, 1000); 
+player.on('timeupdate', throttle(getCurrentTime, 1000));
 
-player.on('timeupdate', function (data) {
-    const currentTime = data.seconds;
-    console.log('Current time:', currentTime);
-    setLocalStorageThrottled(currentTime);
-});
-
-const savedTime = localStorage.getItem(CURRENT_TIME_KEY);
-
-if (savedTime !== null) {
-    player.setCurrentTime(parseFloat(savedTime));
-}
+player.setCurrentTime(JSON.parse(localStorage.getItem(CURRENT_TIME_KEY)) || 0);
