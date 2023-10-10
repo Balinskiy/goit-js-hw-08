@@ -12,4 +12,9 @@ const getCurrentTime = function (currentTime) {
 
 player.on('timeupdate', throttle(getCurrentTime, 1000));
 
+try {
 player.setCurrentTime(JSON.parse(localStorage.getItem(CURRENT_TIME_KEY)) || 0);
+} catch (error) {
+  console.log(error.name);
+}
+
