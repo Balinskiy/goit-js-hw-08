@@ -30,7 +30,7 @@ function refreshForm() {
     const saveData = localStorage.getItem(LOCAL_KEY);
     if (!saveData) return;
     dataForm = JSON.parse(saveData);
-    Object.entries(formData).forEach(([key, val]) => {
+    Object.entries(dataForm).forEach(([key, val]) => {
       form.elements[key].value = val;
     });
   } catch(error) {
